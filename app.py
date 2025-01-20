@@ -2,13 +2,6 @@ import gradio as gr
 import pandas as pd
 import plotly.express as px
 from transformers import pipeline
-import matplotlib.pyplot as plt
-
-cve_chart = plt.figure()
-# Plot data (example)
-cve_chart.plot(generate_cve_chart)
-plt.show()
-
 
 # Sample data for CVEs
 cve_data = {
@@ -60,6 +53,7 @@ with gr.Blocks() as demo:
     # CVE Chart
     with gr.Row():
         cve_chart = gr.Plot(label='CVEs by Severity')
+        # Now use the Plotly figure for Gradio Plot component
         cve_chart.plot(generate_cve_chart)
 
     # Sentiment Analysis
