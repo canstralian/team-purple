@@ -2,6 +2,13 @@ import gradio as gr
 import pandas as pd
 import plotly.express as px
 from transformers import pipeline
+import matplotlib.pyplot as plt
+
+cve_chart = plt.figure()
+# Plot data (example)
+cve_chart.plot(generate_cve_chart)
+plt.show()
+
 
 # Sample data for CVEs
 cve_data = {
