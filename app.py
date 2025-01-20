@@ -53,8 +53,8 @@ with gr.Blocks() as demo:
     # CVE Chart
     with gr.Row():
         cve_chart = gr.Plot(label='CVEs by Severity')
-        # Now use the Plotly figure for Gradio Plot component
-        cve_chart.plot(generate_cve_chart)
+        # Use update instead of plot
+        cve_chart.update(generate_cve_chart())
 
     # Sentiment Analysis
     with gr.Row():
