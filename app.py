@@ -1,7 +1,50 @@
+import plotly.express as px
+import gradio as gr
+
+
 # Function to generate a bar chart of CVEs by severity
-def generate_cve_chart():
-    fig = px.bar(cve_df, x='Severity', y='CVE ID', color='Severity', title='CVEs by Severity')
+def generate_cve_chart(dataframe):
+    """
+    Generate a bar chart of CVEs by severity.
+
+    Args:
+    dataframe (pd.DataFrame): DataFrame containing CVE data with columns 'Severity' and 'CVE ID'.
+
+    Returns:
+    fig: Plotly Figure object.
+    """
+    fig = px.bar(dataframe, x='Severity', y='CVE ID', color='Severity', title='CVEs by Severity')
     return fig
+
+
+# Function to filter CVEs based on severity
+def filter_cves(severity):
+    """
+    Filter CVEs based on severity.
+
+    Args:
+    severity (str): Severity level to filter CVEs.
+
+    Returns:
+    pd.DataFrame: Filtered DataFrame.
+    """
+    return cve_df[cve_df['Severity'] == severity]
+
+
+# Function to analyze sentiment of a description
+def analyze_sentiment(description):
+    """
+    Analyze the sentiment of a CVE description.
+
+    Args:
+    description (str): CVE description text.
+
+    Returns:
+    dict: Sentiment analysis result.
+    """
+    # Placeholder for the actual sentiment analysis logic
+    return {"sentiment": "positive", "confidence": 0.9}
+
 
 # Create the Gradio app
 with gr.Blocks() as demo:
@@ -20,7 +63,7 @@ with gr.Blocks() as demo:
     # CVE Chart
     with gr.Row():
         cve_chart = gr.Plot(label='CVEs by Severity')
-        cve_chart.value = generate_cve_chart()  # Directly assign the figure to the Plot component
+        cve_chart.value = generate_cve_chart(cve_df)  # Directly assign the figure to the Plot component
 
     # Sentiment Analysis
     with gr.Row():
