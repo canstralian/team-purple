@@ -1,50 +1,32 @@
 import plotly.express as px
 import gradio as gr
+import pandas as pd
+from textblob import TextBlob  # Example sentiment analysis library
 
+# Example DataFrame definitions (replace with actual data loading)
+cve_df = pd.DataFrame({
+    'Severity': ['High', 'Medium', 'Low'],
+    'CVE ID': ['CVE-1234', 'CVE-5678', 'CVE-9101']
+})
+deepseek_prover_v1 = pd.DataFrame()
+cybersecurity_kg = pd.DataFrame()
+codesearchnet_pep8 = pd.DataFrame()
+code_text_python = pd.DataFrame()
 
 # Function to generate a bar chart of CVEs by severity
 def generate_cve_chart(dataframe):
-    """
-    Generate a bar chart of CVEs by severity.
-
-    Args:
-    dataframe (pd.DataFrame): DataFrame containing CVE data with columns 'Severity' and 'CVE ID'.
-
-    Returns:
-    fig: Plotly Figure object.
-    """
     fig = px.bar(dataframe, x='Severity', y='CVE ID', color='Severity', title='CVEs by Severity')
     return fig
 
-
 # Function to filter CVEs based on severity
 def filter_cves(severity):
-    """
-    Filter CVEs based on severity.
-
-    Args:
-    severity (str): Severity level to filter CVEs.
-
-    Returns:
-    pd.DataFrame: Filtered DataFrame.
-    """
     return cve_df[cve_df['Severity'] == severity]
-
 
 # Function to analyze sentiment of a description
 def analyze_sentiment(description):
-    """
-    Analyze the sentiment of a CVE description.
-
-    Args:
-    description (str): CVE description text.
-
-    Returns:
-    dict: Sentiment analysis result.
-    """
-    # Placeholder for the actual sentiment analysis logic
-    return {"sentiment": "positive", "confidence": 0.9}
-
+    analysis = TextBlob(description)
+    sentiment = 'positive' if analysis.sentiment.polarity > 0 else 'negative' if analysis.sentiment.polarity < 0 else 'neutral'
+    return {"sentiment": sentiment, "confidence": abs(analysis.sentiment.polarity)}
 
 # Create the Gradio app
 with gr.Blocks() as demo:
